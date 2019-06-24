@@ -14,7 +14,7 @@ class UserResource (private val userService: UserService) {
     fun findAll() = ResponseEntity.ok(userService.findAll())
 
     @GetMapping("/users/{id}")
-    fun findById(@PathVariable id: String) = ResponseEntity.ok(userService.findById(id))
+    fun findById(@PathVariable id: String): ResponseEntity<User> = ResponseEntity.ok(userService.findById(id))
 
     @PostMapping("/users")
     fun create(@RequestBody user: User): ResponseEntity<User> =
