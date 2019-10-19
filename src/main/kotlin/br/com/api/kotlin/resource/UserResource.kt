@@ -22,8 +22,8 @@ class UserResource (private val userService: UserService) {
 
     @PutMapping("/users/{id}")
     fun update(@RequestBody user: User, @PathVariable id: String): ResponseEntity<User> {
-        user.id = id
-        return ResponseEntity.ok(userService.save(user))
+        val userRequest = user.copy(id = id)
+        return ResponseEntity.ok(userService.save(userRequest))
     }
 
     @DeleteMapping("/users/{id}")
