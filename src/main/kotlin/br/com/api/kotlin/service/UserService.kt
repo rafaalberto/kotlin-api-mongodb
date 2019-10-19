@@ -7,16 +7,15 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(private val userRepository: UserRepository) {
+class UserService(private val userRepository: UserRepository) : GenericCrud<User, String> {
 
-    fun findAll(): MutableList<User> = userRepository.findAll()
+    override fun findAll(): MutableList<User> = userRepository.findAll()
 
-    fun findById(id: String): User {
-        return userRepository.findById(id).orElseThrow {
-            BusinessException("User not found", BAD_REQUEST) }
+    override fun findById(id: String): User = userRepository.findById(id).orElseThrow {
+        BusinessException("User not found", BAD_REQUEST)
     }
 
-    fun save(user: User) = userRepository.save(user)
+    override fun save(entity: User): User = userRepository.save(entity)
 
-    fun delete(id: String) = userRepository.deleteById(id)
+    override fun delete(id: String) = userRepository.deleteById(id)
 }
