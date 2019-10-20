@@ -1,32 +1,14 @@
 package br.com.api.kotlin.resource
 
 import br.com.api.kotlin.entity.User
+import br.com.api.kotlin.service.CrudService
 import br.com.api.kotlin.service.UserService
-import org.springframework.http.HttpStatus.CREATED
-import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class UserResource (private val userService: UserService) {
+@RequestMapping("/users")
+class UserResource (private val userService: UserService) : CrudResource <User, String>() {
 
-    @GetMapping("/users")
-    fun findAll() = ResponseEntity.ok(userService.findAll())
-
-    @GetMapping("/users/{id}")
-    fun findById(@PathVariable id: String): ResponseEntity<User> = ResponseEntity.ok(userService.findById(id))
-
-    @PostMapping("/users")
-    fun create(@RequestBody user: User): ResponseEntity<User> =
-            ResponseEntity(userService.save(user), CREATED)
-
-    @PutMapping("/users/{id}")
-    fun update(@RequestBody user: User, @PathVariable id: String): ResponseEntity<User> {
-        val userRequest = user.copy(id = id)
-        return ResponseEntity.ok(userService.save(userRequest))
-    }
-
-    @DeleteMapping("/users/{id}")
-    @ResponseStatus(NO_CONTENT)
-    fun delete(@PathVariable id: String) = userService.delete(id)
+    override fun getService(): CrudService<User, String> = userService
 }

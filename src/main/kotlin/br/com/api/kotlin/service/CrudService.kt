@@ -1,8 +1,8 @@
 package br.com.api.kotlin.service
 
-interface GenericCrud <T, PK> {
+interface CrudService <T, PK> {
     fun findAll(): MutableList<T>
     fun findById(id: PK): T
-    fun save(entity: T): T
+    fun save(entity: T, id: Any?): T
     fun delete(id: PK)
 }
