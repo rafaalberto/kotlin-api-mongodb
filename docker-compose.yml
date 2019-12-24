@@ -1,0 +1,23 @@
+version: "3"
+services:
+  user-app-backend:
+    build: .
+    environment:
+      - "APP_OPTIONS=--spring.data.mongodb.host=user-app-db"
+    container_name: user-app-backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - user-app-db
+    networks:
+      - user-app-net
+  user-app-db:
+    image: mongo
+    container_name: user-app-db
+    ports:
+      - 27017:27017
+    networks:
+      - user-app-net
+networks:
+  user-app-net:
+    driver: bridge
